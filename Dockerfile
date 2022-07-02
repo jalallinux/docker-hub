@@ -32,6 +32,7 @@ RUN apt-get install -y optipng
 RUN apt-get install -y pngquant
 RUN apt-get install -y gifsicle
 RUN apt-get install -y nodejs
+RUN pecl channel-update pecl.php.net
 RUN pecl install swoole
 RUN npm install --location=global npm@latest
 RUN npm install --location=global pm2@latest
