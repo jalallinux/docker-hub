@@ -42,9 +42,7 @@ RUN echo "deb [signed-by=/usr/share/keyrings/yarnkey.gpg] https://dl.yarnpkg.com
 RUN curl -sS https://www.postgresql.org/media/keys/ACCC4CF8.asc | gpg --dearmor | tee /usr/share/keyrings/pgdg.gpg >/dev/null
 RUN echo "deb [signed-by=/usr/share/keyrings/pgdg.gpg] http://apt.postgresql.org/pub/repos/apt focal-pgdg main" > /etc/apt/sources.list.d/pgdg.list
 RUN apt-get update
-RUN apt-get install -y wget
-RUN apt-get install -y nano
-RUN apt-get install -y yarn
+RUN apt-get install -y nano wget yarn net-tools
 RUN apt-get install -y postgresql-client-14
 RUN apt-get -y autoremove
 RUN apt-get clean
