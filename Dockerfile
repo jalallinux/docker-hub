@@ -1,4 +1,4 @@
-FROM 192.168.200.224:8132/docker-hosted/ubuntu:20.04
+FROM amd64/ubuntu:20.04
 
 LABEL maintainer="JalalLinuX"
 
