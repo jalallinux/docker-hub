@@ -35,7 +35,7 @@ RUN apt-get install php-pear -y
 RUN apt-get install build-essential -y
 RUN php -r "readfile('https://getcomposer.org/installer');" | php -- --install-dir=/usr/bin/ --filename=composer
 RUN curl -sL https://deb.nodesource.com/setup_16.x | bash -
-RUN apt-get install -y nodejs htop
+RUN apt-get install -y nodejs htop iputils-ping
 RUN npm install --location=global npm@latest
 RUN npm install --location=global pm2@latest
 RUN npm install --location=global svgo
