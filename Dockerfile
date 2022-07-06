@@ -2,15 +2,15 @@ FROM amd64/ubuntu:20.04
 
 LABEL maintainer="JalalLinuX"
 
-ARG WWWGROUP
-
 ENV DEBIAN_FRONTEND noninteractive
 ENV TZ=Asia/Tehran
 
 RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
 
 RUN apt-get update
-RUN apt-get install -y gnupg gosu curl ca-certificates zip unzip git supervisor sqlite3 libcap2-bin libpng-dev python2
+RUN apt-get install -y gnupg gosu curl ca-certificates \
+    zip unzip git htop nano wget net-tools iputils-ping \
+    supervisor sqlite3 libcap2-bin libpng-dev python2
 RUN mkdir -p ~/.gnupg
 RUN chmod 600 ~/.gnupg
 RUN echo "disable-ipv6" >> ~/.gnupg/dirmngr.conf
@@ -29,22 +29,19 @@ RUN apt-get install -y jpegoptim optipng pngquant gifsicle
 
 RUN pecl channel-update pecl.php.net
 RUN pecl install swoole
-RUN apt-get install git -y
 RUN apt-get install php8.0-dev -y
 RUN apt-get install php-pear -y
 RUN apt-get install build-essential -y
 RUN php -r "readfile('https://getcomposer.org/installer');" | php -- --install-dir=/usr/bin/ --filename=composer
 RUN curl -sL https://deb.nodesource.com/setup_16.x | bash -
-RUN apt-get install -y nodejs htop iputils-ping
+RUN apt-get install -y nodejs
 RUN npm install --location=global npm@latest
 RUN npm install --location=global pm2@latest
-RUN npm install --location=global svgo
 RUN curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | apt-key add -
 RUN echo "deb https://dl.yarnpkg.com/debian/ stable main" > /etc/apt/sources.list.d/yarn.list
 RUN echo "deb http://apt.postgresql.org/pub/repos/apt focal-pgdg main" > /etc/apt/sources.list.d/pgdg.list
 RUN curl --silent -o - https://www.postgresql.org/media/keys/ACCC4CF8.asc | apt-key add -
 RUN apt-get update
-RUN apt-get install -y nano wget net-tools
 RUN apt-get install -y postgresql-client-14
 RUN apt-get -y autoremove
 RUN apt-get clean
