@@ -2,17 +2,17 @@ version: '3'
 services:
 
     postgres:
-        container_name: '${HD_POSTGRES_CONTAINER_NAME:-hidevs_postgres}'
-        image: 'bitnami/postgresql:${HD_POSTGRES_BITNAMI_VERSION:-14}'
+        container_name: '${HDS_POSTGRES_CONTAINER_NAME:-hidevs_postgres}'
+        image: 'bitnami/postgresql:${HDS_POSTGRES_BITNAMI_VERSION:-14}'
         ports:
-            - '${HD_POSTGRES_FORWARDED_PORT:-5432}:5432'
+            - '${HDS_POSTGRES_FORWARDED_PORT:-5432}:5432'
         environment:
-            POSTGRESQL_POSTGRES_PASSWORD: '${HD_POSTGRES_POSTGRES_PASSWORD:-sXQHNK59FYke}'
+            POSTGRESQL_POSTGRES_PASSWORD: '${HDS_POSTGRES_POSTGRES_PASSWORD:-sXQHNK59FYke}'
             POSTGRESQL_USERNAME: 'poostgres'
-            POSTGRESQL_PASSWORD: '${HD_POSTGRES_POSTGRES_PASSWORD:-sXQHNK59FYke}'
+            POSTGRESQL_PASSWORD: '${HDS_POSTGRES_POSTGRES_PASSWORD:-sXQHNK59FYke}'
         networks:
             tick:
-                ipv4_address: '${HD_POSTGRES_NETWORK_IP:-10.0.1.3}'
+                ipv4_address: '${HDS_POSTGRES_NETWORK_IP:-10.0.1.3}'
         volumes:
             - 'postgres_data:/bitnami/postgresql'
         healthcheck:
@@ -21,17 +21,17 @@ services:
             timeout: 5s
 
     redis:
-        container_name: ${HD_REDIS_CONTAINER_NAME:-hidevs_redis}
-        image: 'bitnami/redis:${HD_REDIS_BITNAMI_VERSION:-7.0}'
+        container_name: ${HDS_REDIS_CONTAINER_NAME:-hidevs_redis}
+        image: 'bitnami/redis:${HDS_REDIS_BITNAMI_VERSION:-7.0}'
         ports:
-            - '${HD_REDIS_FORWARDED_PORT:-5432}:6379'
+            - '${HDS_REDIS_FORWARDED_PORT:-5432}:6379'
         environment:
             ALLOW_EMPTY_PASSWORD: 'no'
-            REDIS_PASSWORD: '${HD_REDIS_POSTGRES_PASSWORD:-sXQHNK59FYke}'
+            REDIS_PASSWORD: '${HDS_REDIS_POSTGRES_PASSWORD:-sXQHNK59FYke}'
             REDIS_DISABLE_COMMANDS: 'FLUSHDB,FLUSHALL'
         networks:
             tick:
-                ipv4_address: '${HD_REDIS_NETWORK_IP:-10.0.1.4}'
+                ipv4_address: '${HDS_REDIS_NETWORK_IP:-10.0.1.4}'
         volumes:
             - 'redis_data:/bitnami/redis/data'
         healthcheck:
@@ -40,29 +40,29 @@ services:
             timeout: 5s
 
     mongodb:
-        container_name: '${HD_MONGODB_CONTAINER_NAME:-hidevs_mongodb}'
-        image: 'bitnami/mongodb:${HD_MONGODB_BITNAMI_VERSION:-5.0}'
+        container_name: '${HDS_MONGODB_CONTAINER_NAME:-hidevs_mongodb}'
+        image: 'bitnami/mongodb:${HDS_MONGODB_BITNAMI_VERSION:-5.0}'
         ports:
-            - '${HD_MONGODB_FORWARDED_PORT:-27017}:27017'
+            - '${HDS_MONGODB_FORWARDED_PORT:-27017}:27017'
         environment:
             MONGODB_ENABLE_DIRECTORY_PER_DB: 'yes'
             ALLOW_EMPTY_PASSWORD: 'no'
-            MONGODB_ROOT_USER: '${HD_MONGODB_ROOT_USER:-mongodb}'
-            MONGODB_ROOT_PASSWORD: '${HD_MONGODB_ROOT_PASSWORD:-sXQHNK59FYke}'
+            MONGODB_ROOT_USER: '${HDS_MONGODB_ROOT_USER:-mongodb}'
+            MONGODB_ROOT_PASSWORD: '${HDS_MONGODB_ROOT_PASSWORD:-sXQHNK59FYke}'
             # MONGODB_USERNAME: 'mongodb'
             # MONGODB_PASSWORD: 'mongodb'
         volumes:
             - 'mongodb_data:/bitnami/mongodb'
         networks:
             tick:
-                ipv4_address: '${HD_MONGODB_NETWORK_IP:-10.0.1.5}'
+                ipv4_address: '${HDS_MONGODB_NETWORK_IP:-10.0.1.5}'
 
 networks:
     tick:
         driver: bridge
         ipam:
             config:
-                - subnet: '${HD_NETWORK_SUBNET:-10.0.1.0/16}'
+                - subnet: '${HDS_NETWORK_SUBNET:-10.0.1.0/16}'
 
 volumes:
     postgres_data:
