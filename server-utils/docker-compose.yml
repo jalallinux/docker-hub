@@ -15,6 +15,7 @@ services:
                 ipv4_address: '${HDS_POSTGRES_NETWORK_IP:-10.0.1.3}'
         volumes:
             - 'postgres_data:/bitnami/postgresql'
+            - './postgres_init.sql:/docker-entrypoint-initdb.d/postgres_init.sql'
         healthcheck:
             test: ["CMD", "pg_isready", "-q", "-d", "postgres", "-U", "postgres"]
             retries: 3
@@ -59,10 +60,10 @@ services:
 
     nextcloud:
         container_name: '${HDS_NEXTCLOUD_CONTAINER_NAME:-hidevs_nextcloud}'
-        image: nextcloud:${HDS_NEXTCLOUD_VERSION:-apache}
+        image: 'nextcloud:${HDS_NEXTCLOUD_VERSION:-apache}'
         restart: always
         ports:
-            - 8000:80
+            - 8001:80
         volumes:
             - nextcloud_data:/var/www/html
         environment:
@@ -75,6 +76,27 @@ services:
         networks:
             tick:
                 ipv4_address: '${HDS_NEXTCLOUD_NETWORK_IP:-10.0.1.6}'
+
+    grafana:
+        container_name: '${HDS_GRAFANA_CONTAINER_NAME:-hidevs_grafana}'
+        image: 'grafana/grafana-enterprise:${HDS_GRAFANA_VERSION:-9.0.3}'
+        restart: unless-stopped
+        ports:
+            - 8002:3000
+        volumes:
+            - grafana_data:/var/lib/grafana
+        environment:
+            GF_DATABASE_TYPE: 'postgres'
+            GF_DATABASE_HOST: '${HDS_POSTGRES_NETWORK_IP:-10.0.1.3}:${HDS_POSTGRES_FORWARDED_PORT:-5432}'
+            GF_DATABASE_NAME: '${HDS_GRAFANA_DATABASE:-grafana}'
+            GF_DATABASE_USER: 'postgres'
+            GF_DATABASE_PASSWORD: '${HDS_POSTGRES_POSTGRES_PASSWORD:-sXQHNK59FYke}'
+            GF_DATABASE_SSL_MODE: 'disable'
+        depends_on:
+            - postgres
+        networks:
+            tick:
+                ipv4_address: '${HDS_GRAFANA_NETWORK_IP:-10.0.1.7}'
 
 networks:
     tick:
@@ -95,4 +117,7 @@ volumes:
         driver: local
     nextcloud_data:
         name: '${HDS_NEXTCLOUD_VOLUMNE_NAME:-hidevs_nextcloud_data}'
+        driver: local
+    grafana_data:
+        name: '${HDS_GRAFANA_VOLUMNE_NAME:-hidevs_grafana_data}'
         driver: local

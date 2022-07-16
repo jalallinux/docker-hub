@@ -1,0 +1,2 @@
+CREATE DATABASE nextcloud;
+CREATE DATABASE grafana;
