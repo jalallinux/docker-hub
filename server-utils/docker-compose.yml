@@ -2,17 +2,17 @@ version: '3'
 services:
 
     postgres:
-        container_name: hidevs_postgres
-        image: bitnami/postgresql:14
+        container_name: '${HD_POSTGRES_CONTAINER_NAME:-hidevs_postgres}'
+        image: 'bitnami/postgresql:${HD_POSTGRES_BITNAMI_VERSION:-14}'
         ports:
-            - '5432:5432'
+            - '${HD_POSTGRES_FORWARDED_PORT:-5432}:5432'
         environment:
-            POSTGRESQL_POSTGRES_PASSWORD: 'sXQHNK59FYke'
+            POSTGRESQL_POSTGRES_PASSWORD: '${HD_POSTGRES_POSTGRES_PASSWORD:-sXQHNK59FYke}'
             POSTGRESQL_USERNAME: 'poostgres'
-            POSTGRESQL_PASSWORD: 'poostgres'
+            POSTGRESQL_PASSWORD: '${HD_POSTGRES_POSTGRES_PASSWORD:-sXQHNK59FYke}'
         networks:
             tick:
-                ipv4_address: 10.0.1.3
+                ipv4_address: '${HD_POSTGRES_NETWORK_IP:-10.0.1.3}'
         volumes:
             - 'postgres_data:/bitnami/postgresql'
         healthcheck:
@@ -21,17 +21,17 @@ services:
             timeout: 5s
 
     redis:
-        container_name: hidevs_redis
-        image: bitnami/redis:7.0
+        container_name: ${HD_REDIS_CONTAINER_NAME:-hidevs_redis}
+        image: 'bitnami/redis:${HD_REDIS_BITNAMI_VERSION:-7.0}'
         ports:
-            - '6379:6379'
+            - '${HD_REDIS_FORWARDED_PORT:-5432}:6379'
         environment:
             ALLOW_EMPTY_PASSWORD: 'no'
-            REDIS_PASSWORD: 'sXQHNK59FYke'
+            REDIS_PASSWORD: '${HD_REDIS_POSTGRES_PASSWORD:-sXQHNK59FYke}'
             REDIS_DISABLE_COMMANDS: 'FLUSHDB,FLUSHALL'
         networks:
             tick:
-                ipv4_address: 10.0.1.4
+                ipv4_address: '${HD_REDIS_NETWORK_IP:-10.0.1.4}'
         volumes:
             - 'redis_data:/bitnami/redis/data'
         healthcheck:
@@ -40,22 +40,22 @@ services:
             timeout: 5s
 
     mongodb:
-        container_name: hidevs_mongodb
-        image: bitnami/mongodb:5.0
+        container_name: '${HD_MONGODB_CONTAINER_NAME:-hidevs_mongodb}'
+        image: 'bitnami/mongodb:${HD_MONGODB_BITNAMI_VERSION:-5.0}'
         ports:
-            - '27017:27017'
+            - '${HD_MONGODB_FORWARDED_PORT:-27017}:27017'
         environment:
             MONGODB_ENABLE_DIRECTORY_PER_DB: 'yes'
             ALLOW_EMPTY_PASSWORD: 'no'
-            MONGODB_ROOT_USER: 'mongodb'
-            MONGODB_ROOT_PASSWORD: 'sXQHNK59FYke'
+            MONGODB_ROOT_USER: '${HD_MONGODB_ROOT_USER:-mongodb}'
+            MONGODB_ROOT_PASSWORD: '${HD_MONGODB_ROOT_PASSWORD:-sXQHNK59FYke}'
             # MONGODB_USERNAME: 'mongodb'
             # MONGODB_PASSWORD: 'mongodb'
         volumes:
             - 'mongodb_data:/bitnami/mongodb'
         networks:
             tick:
-                ipv4_address: 10.0.1.5
+                ipv4_address: '${HD_MONGODB_NETWORK_IP:-10.0.1.5}'
 
 networks:
     tick:
