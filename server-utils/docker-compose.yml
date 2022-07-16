@@ -1,14 +1,15 @@
 version: '3'
 services:
 
-    pgsql:
+    postgres:
+        container_name: hidevs_postgres
         image: bitnami/postgresql:14
         ports:
             - '5432:5432'
         environment:
             POSTGRESQL_POSTGRES_PASSWORD: 'sXQHNK59FYke'
-            # POSTGRESQL_USERNAME: 'poostgres'
-            # POSTGRESQL_PASSWORD: 'poostgres'
+            POSTGRESQL_USERNAME: 'poostgres'
+            POSTGRESQL_PASSWORD: 'poostgres'
         networks:
             tick:
                 ipv4_address: 10.0.1.3
@@ -20,6 +21,7 @@ services:
             timeout: 5s
 
     redis:
+        container_name: hidevs_redis
         image: bitnami/redis:7.0
         ports:
             - '6379:6379'
@@ -38,6 +40,7 @@ services:
             timeout: 5s
 
     mongodb:
+        container_name: hidevs_mongodb
         image: bitnami/mongodb:5.0
         ports:
             - '27017:27017'
@@ -49,7 +52,7 @@ services:
             # MONGODB_USERNAME: 'mongodb'
             # MONGODB_PASSWORD: 'mongodb'
         volumes:
-            - 'mongo_data:/bitnami/mongodb'
+            - 'mongodb_data:/bitnami/mongodb'
         networks:
             tick:
                 ipv4_address: 10.0.1.5
@@ -66,5 +69,5 @@ volumes:
         driver: local
     redis_data:
         driver: local
-    mongo_data:
+    mongodb_data:
         driver: local
