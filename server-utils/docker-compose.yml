@@ -66,8 +66,11 @@ networks:
 
 volumes:
     postgres_data:
+        name: '${HDS_POSTGRES_VOLUMNE_NAME:-hidevs_postgres_data}'
         driver: local
     redis_data:
+        name: '${HDS_REDIS_VOLUMNE_NAME:-hidevs_redis_data}'
         driver: local
     mongodb_data:
+        name: '${HDS_MONGODB_VOLUMNE_NAME:-hidevs_mongodb_data}'
         driver: local
