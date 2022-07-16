@@ -63,8 +63,6 @@ services:
         restart: always
         ports:
             - 8000:80
-        links:
-            - postgres
         volumes:
             - nextcloud_data:/var/www/html
         environment:
