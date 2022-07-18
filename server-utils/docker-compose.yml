@@ -100,18 +100,15 @@ services:
 
     apache:
         container_name: '${HDS_APACHE_CONTAINER_NAME:-hidevs_apache}'
-        build: .
+        image: 'ubuntu/apache2:2.4-20.04_beta'
         ports:
             - '80:80'
             - '443:443'
         volumes:
-            #            - 'apache_config_data:/etc/apache2'
-            #            - 'apache_app_data:/apps'
-            - '/app/apache/sites-available:/etc/apache2/sites-available'
-            - '/app/apache/sites-enabled:/etc/apache2/sites-enabled'
+            - '/app/apache:/etc/apache2'
+            - '/app/certificates:/etc/certificates'
             - '/app/subdomains:/var/www/subdomains'
             - '/app/domains:/var/www/domains'
-            - '/app/certificates:/app/certificates'
 
 networks:
     tick:
