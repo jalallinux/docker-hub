@@ -63,7 +63,7 @@ services:
         image: 'nextcloud:${HDS_NEXTCLOUD_VERSION:-apache}'
         restart: always
         ports:
-            - 8001:80
+            - '8001:80'
         volumes:
             - nextcloud_data:/var/www/html
         environment:
@@ -82,9 +82,9 @@ services:
         image: 'grafana/grafana-enterprise:${HDS_GRAFANA_VERSION:-9.0.3}'
         restart: unless-stopped
         ports:
-            - 8002:3000
+            - '8002:3000'
         volumes:
-            - grafana_data:/var/lib/grafana
+            - 'grafana_data:/var/lib/grafana'
         environment:
             GF_DATABASE_TYPE: 'postgres'
             GF_DATABASE_HOST: '${HDS_POSTGRES_NETWORK_IP:-10.0.1.3}:${HDS_POSTGRES_FORWARDED_PORT:-5432}'
@@ -98,6 +98,21 @@ services:
             tick:
                 ipv4_address: '${HDS_GRAFANA_NETWORK_IP:-10.0.1.7}'
 
+    apache:
+        container_name: '${HDS_APACHE_CONTAINER_NAME:-hidevs_apache}'
+        build: .
+        ports:
+            - '80:80'
+            - '443:443'
+        volumes:
+            #            - 'apache_config_data:/etc/apache2'
+            #            - 'apache_app_data:/apps'
+            - '/app/apache/sites-available:/etc/apache2/sites-available'
+            - '/app/apache/sites-enabled:/etc/apache2/sites-enabled'
+            - '/app/subdomains:/var/www/subdomains'
+            - '/app/domains:/var/www/domains'
+            - '/app/certificates:/app/certificates'
+
 networks:
     tick:
         name: ${HDS_NETWORK_NAME:-hidevs_tick}
@@ -107,18 +122,24 @@ networks:
                 - subnet: '${HDS_NETWORK_SUBNET:-10.0.1.0/16}'
 
 volumes:
+    apache_config_data:
+        name: '${HDS_APACHE_VOLUME_NAME:-hidevs_apache_config_data}'
+        driver: local
+    apache_app_data:
+        name: '${HDS_APACHE_VOLUME_NAME:-hidevs_apache_app_data}'
+        driver: local
     postgres_data:
-        name: '${HDS_POSTGRES_VOLUMNE_NAME:-hidevs_postgres_data}'
+        name: '${HDS_POSTGRES_VOLUME_NAME:-hidevs_postgres_data}'
         driver: local
     redis_data:
-        name: '${HDS_REDIS_VOLUMNE_NAME:-hidevs_redis_data}'
+        name: '${HDS_REDIS_VOLUME_NAME:-hidevs_redis_data}'
         driver: local
     mongodb_data:
-        name: '${HDS_MONGODB_VOLUMNE_NAME:-hidevs_mongodb_data}'
+        name: '${HDS_MONGODB_VOLUME_NAME:-hidevs_mongodb_data}'
         driver: local
     nextcloud_data:
-        name: '${HDS_NEXTCLOUD_VOLUMNE_NAME:-hidevs_nextcloud_data}'
+        name: '${HDS_NEXTCLOUD_VOLUME_NAME:-hidevs_nextcloud_data}'
         driver: local
     grafana_data:
-        name: '${HDS_GRAFANA_VOLUMNE_NAME:-hidevs_grafana_data}'
+        name: '${HDS_GRAFANA_VOLUME_NAME:-hidevs_grafana_data}'
         driver: local
