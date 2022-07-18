@@ -1,6 +1,6 @@
-mkdir source
+rm -rf source && mkdir source
 tar -xzvf source.tar.gz -C ./source
-cd source
+cp .env source && cd source
 
 docker stop $(docker-compose ps | grep hidevs_ | awk '{print $1}')
 docker rm $(docker-compose ps | grep hidevs_ | awk '{print $1}')
