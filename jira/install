@@ -1,0 +1,17 @@
+#!/usr/bin/expect
+
+set timeout -1
+
+spawn /tmp/atlassian-jira-software-installation
+
+expect "o, Enter" {send "o\n"}
+
+expect "Express Install" {send "1\n"}
+
+expect "Exit" {send "i\n"}
+
+expect "Yes to All" {send "ya\n"}
+
+expect "No" {send "n\n"}
+
+expect eof {exit}
