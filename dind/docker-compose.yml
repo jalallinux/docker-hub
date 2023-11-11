@@ -1,0 +1,14 @@
+version: "3.9"
+
+services:
+  os:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: ubuntu-20.04
+    hostname: ubuntu
+    privileged: true
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    tty: true
+    network_mode: host
