@@ -1,0 +1,15 @@
+#!/usr/bin/expect
+
+set timeout -1
+
+spawn /tmp/atlassian-confluence-software-installation
+
+expect "o, Enter" {send "o\n"}
+
+expect "Express Install" {send "1\n"}
+
+expect "i, Enter" {send "i\n"}
+
+expect "y, Enter" {send "y\n"}
+
+expect eof {exit}
