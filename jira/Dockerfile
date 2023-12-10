@@ -4,7 +4,7 @@ LABEL maintainer="JalalLinuX"
 
 ENV DEBIAN_FRONTEND noninteractive
 ENV TZ=Asia/Tehran
-ENV JIRA_VERSION=9.11.2
+ENV JIRA_VERSION=9.12.0
 
 COPY install /tmp/install
 
