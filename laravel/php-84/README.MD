@@ -52,4 +52,4 @@ user=root
 redirect_stderr=true
 stdout_logfile=/app/storage/logs/horizon.log
 stopwaitsecs=3600
-```vv
+```
