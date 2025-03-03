@@ -9,6 +9,7 @@ WORKDIR /app
 
 ENV DEBIAN_FRONTEND=noninteractive
 ENV TZ=Asia/Tehran
+ENV COMPOSER_ALLOW_SUPERUSER=1
 
 RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone \
     && apt-get update \
@@ -47,3 +48,8 @@ RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone \
     && sed -i 's/opcache.jit=off/;opcache.jit=off/' /etc/php/8.4/cli/conf.d/10-opcache.ini
 
 COPY php.ini /etc/php/8.4/cli/conf.d/99-customize.ini
+COPY start-container /usr/local/bin/start-container
+COPY supervisord.conf /etc/supervisor/conf.d/supervisord.conf
+
+EXPOSE 8000
+ENTRYPOINT ["/usr/local/bin/start-container"]
