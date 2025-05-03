@@ -8,7 +8,16 @@ if [ ! -d /.composer ]; then
     mkdir /.composer
 fi
 
+if [ ! -d vendor/ ]; then
+    composer install
+fi
+
+if [ ! -d public/storage/ ]; then
+    php artisan storage:link --force
+fi
+
 chmod -R ugo+rw /.composer
+php artisan optimize:clear
 
 if [ $# -gt 0 ]; then
     exec gosu $WWWUSER "$@"
